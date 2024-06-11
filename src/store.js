@@ -1,5 +1,6 @@
 import { reactive } from 'vue';
 import axios from 'axios';
+import { router } from './route.js';
 
 
 export const store = reactive({
@@ -7,17 +8,16 @@ export const store = reactive({
     imgBasePath: 'http://127.0.0.1:8000/storage/',
     api_data: {
         AllProjects: []
-    }
-})
-
-export const storeMethods = {
+    },
     async getAllProjects() {
         try {
-            const response = await axios.get(`${store.apiBaseUrl}/projects`);
-            store.api_data.AllProjects = response.data.results;
-            return store.api_data.AllProjects;
+            const response = await axios.get(`${this.apiBaseUrl}/projects`);
+            this.api_data.AllProjects = response.data.results;
+            console.log(this.api_data.AllProjects);
+            return response.data.results;
         } catch (error) {
-            console.error('Error fetching projects:', error);
+            console.log(router);
+            router.push({ name: 'not-found' })
         }
     }
-};
+});

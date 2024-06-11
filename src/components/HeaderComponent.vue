@@ -8,12 +8,15 @@
                 </div>
                 <div id="hype-nav-menu" class="d-flex h-100 d-none d-lg-block align-items-center">
                     <ul class="navbar-nav h-100 mb-2 mb-lg-0 d-flex flex-row align-items-center">
-                        <li class="nav-item d-flex align-items-center px-3 custom-border">
-                            <router-link class="nav-link" to="/" exact>Home</router-link>
+
+
+
+                        <li v-for="links in navLinks" :key="links.id"
+                            class="nav-item d-flex align-items-center px-3 custom-border">
+                            <router-link :to="links.path" class="nav-link" exact>{{ links.name }}</router-link>
                         </li>
-                        <li class="nav-item d-flex align-items-center px-3 custom-border">
-                            <router-link class="nav-link" to="/projects">All Projects</router-link>
-                        </li>
+
+
                     </ul>
                 </div>
             </div>
@@ -23,10 +26,10 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
                 <div id="hype-nav-login-button" ref="hypeNavLoginButton"
-                    class="icon-container rounded-top-2 d-flex flex-column justify-content-center order-2" role="button"
-                    @click="toggleMenu('hypeNavLoginBarInput', $event)">
-                    <i class="fa-solid fa-user"></i>
-                    <!-- Implement user initials display logic here if needed -->
+                    class="icon-container rounded-top-2 d-flex flex-column justify-content-center order-2"
+                    role="button"><a href="http://localhost:8000/login">
+                        <i class="fa-solid fa-user"></i>
+                    </a>
                 </div>
                 <div id="hype-nav-kebab-button" ref="hypeNavKebabButton"
                     class="icon-container rounded-top-2 d-lg-none order-1" role="button"
@@ -74,9 +77,16 @@ export default {
                 eventElement: null,
             },
             initialPositionWindow: 0,
+            navLinks: []
         };
     },
+    // props: {
+    //     links
+    // },
     mounted() {
+        this.fillNavLinks();
+
+
         this.$nextTick(() => {
             const header = this.$refs.hypeCustomNav;
             if (header) {
@@ -135,6 +145,9 @@ export default {
         checkMovement() {
             return this.initialPositionWindow !== 0;
         },
+        fillNavLinks() {
+            this.navLinks = this.$router.options.routes.filter(link => link.meta?.visible ?? false);
+        }
     },
 };
 </script>
@@ -192,7 +205,7 @@ header {
                 position: relative;
                 height: 80%;
 
-                .active {
+                .router-link-exact-active {
                     &::after {
                         content: "";
                         position: absolute;

@@ -1,6 +1,8 @@
 <template>
   <HeaderComponent></HeaderComponent>
-  <router-view></router-view>
+  <main>
+    <router-view></router-view>
+  </main>
 </template>
 
 <script>
@@ -13,24 +15,24 @@ export default {
   data() {
     return {
       store,
-      projects: []
     };
   },
   components: {
     HeaderComponent
   },
   methods: {
-    getAllPosts() {
-      axios.get(this.store.apiBaseUrl + '/projects').then((res) => {
-        console.log(res.data.results);
-        this.projects = res.data.results;
-      });
-    }
   },
   mounted() {
-    this.getAllPosts();
+    this.store.getAllProjects();
   }
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@use './assets/styles/partials/variables' as *;
+
+main {
+  background-color: $background-tertiary-color;
+  min-height: 100vh;
+}
+</style>
