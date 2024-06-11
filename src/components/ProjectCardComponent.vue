@@ -1,29 +1,38 @@
 <template>
-    <div class="card-container px-3 py-5 mb-2" @click="console.log(propsProject)">
-        <div class="custom-card mx-auto text-white hype-w-90x100 p-4" :class="metaSort">
+    <div class="card-container px-1 py-5 mb-2">
+        <div class="custom-card mx-auto text-white hype-w-90x100 p-4" ref="cardEnter" :class="metaSort">
             <div class="front-layer h-100 d-flex flex-column justify-content-between">
                 <h2 class="text-center p-3 fs-1 hype-text-shadow">{{ propsProject.title }}</h2>
-                <div class="blurred-background p-3">
-                    <h4 class="hype-text-shadow">Type: {{ propsProject.type.name }}</h4>
+                <div class="p-3" ref="frontLayerDetails">
+                    <h4 class="hype-text-shadow">Type:
+                        <span v-if="propsProject.type">{{ propsProject.type.name }}</span>
+                        <span v-else>No Type</span>
+                    </h4>
+                    <h4 class="hype-text-shadow">Date of Creation: {{ propsProject.created }}</h4>
                     <div class="d-flex gap-3">
                         <h4 class="hype-text-shadow">Techonlogies:</h4>
                         <div v-if="propsProject.technologies" class="d-flex align-items-center gap-3 flex-wrap">
-                            <a v-for="technology in propsProject.technologies" :key="technology.id"
-                                class="tec-link hype-pointer position-relative" href="#"><i
-                                    class="fs-3 hype-text-shadow position-relative" :class="technology.icon"
-                                    :style="{ color: technology.color }">
+                            <div v-for="technology in propsProject.technologies" :key="technology.id"
+                                class="tec-link position-relative"><i class="fs-3 hype-text-shadow position-relative"
+                                    :class="technology.icon" :style="{ color: technology.color }"
+                                    @mouseenter="hover(technology.name)" @mouseleave="lefthover(technology.name)">
                                 </i>
-                                <!-- <div class="tec-info">
-                                            {{ technology.name }}
-                                        </div> -->
-                            </a>
+                                <div class="tec-info" :ref="technology.name">
+                                    {{ technology.name }}
+                                </div>
+                            </div>
                         </div>
                         <h4 v-else>No Technology</h4>
                     </div>
-
-                    <p>
-                        {{ propsProject.description }}
-                    </p>
+                    <div class="d-flex gap-3 hype-text-shadow py-3">
+                        <h4>Description:</h4>
+                        <p>
+                            {{ propsProject.description }}
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <a role="button" class="mine-custom-btn mb-3 align-self-center" href="#">More Details</a>
+                    </div>
                 </div>
             </div>
             <div class="layers">
@@ -42,6 +51,8 @@
                     <div class="img-container shadow position-relative">
                         <img class=" hype-unselectable h-100" :src="store.imgBasePath + propsProject.image_url">
                     </div>
+                    <div class="blurred-background p-3 position-absolute" ref="blurred">
+                    </div>
                 </div>
             </div>
         </div>
@@ -54,17 +65,76 @@ import { store } from '../store';
 export default {
     data() {
         return {
-            store
-        }
+            store,
+            contianerHeight: '10px',
+            icons: []
+        };
     },
     props: {
-        metaSort: String,
-        propsProject: Object
+        metaSort: {
+            type: String,
+            required: false
+        },
+        propsProject: {
+            type: Object,
+            required: true
+        }
+    },
+    computed: {
+    },
+    mounted() {
+        this.$nextTick(() => {
+            this.propsProject.technologies.forEach(element => {
+                this.icons.push({
+                    name: element.name,
+                    originalWidth: this.$refs[element.name][0].offsetWidth,
+                })
+                this.$refs[element.name][0].style.width = `0px`;
+            });
+            this.$refs['blurred'].style.height = this.$refs['frontLayerDetails'].offsetHeight + 20 + 'px';
+
+        });
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && entry.intersectionRatio >= 0.7) {
+                    entry.target.style.transform = "rotateY(0deg) rotateX(0deg)"
+                } else {
+                    if (window.innerWidth > 1200) {
+                        entry.target.className.includes('custom-card-even') ? entry.target.style.transform = "rotateY(-20deg) rotateX(0deg)" : entry.target.style.transform = "rotateY(20deg) rotateX(0deg)"
+
+                    } else {
+                        entry.target.style.transform = "rotateY(0deg) rotateX(15deg)"
+                    }
+
+                }
+            });
+        }, {
+            threshold: 0.7 // Imposta il threshold al 50%
+        });
+        observer.observe(this.$refs.cardEnter);
+
+
+
+
+    },
+    methods: {
+        hover(name) {
+            let findIcon = this.icons.filter(element => element.name === name)[0];
+            this.$refs[name][0].style.padding = '0px 7.5px';
+            this.$refs[name][0].style.width = `${findIcon.originalWidth + 20}px`;
+        },
+        lefthover(name) {
+            this.$refs[name][0].style.padding = '0px';
+            this.$refs[name][0].style.width = `0px`;
+        }
     },
 
 
 }
+
 </script>
+
+
 
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css?family=Raleway:400,400i,700");
@@ -86,8 +156,8 @@ export default {
 
 .custom-card {
     position: relative;
-    max-width: 500px;
-    width: 500px;
+    max-width: 600px;
+    width: 600px;
     max-height: 700px;
     height: 700px;
     color: #000000;
@@ -125,8 +195,14 @@ export default {
         -webkit-backdrop-filter: blur(10px);
         border-radius: 10px;
         width: calc(100% - 0px);
-        height: 300px;
         bottom: 10px;
+        z-index: 100;
+        bottom: 0px
+    }
+
+    p {
+        height: 100px;
+        overflow-y: auto;
     }
 
 }

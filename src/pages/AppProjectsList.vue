@@ -37,6 +37,9 @@ export default {
                 console.error('Error fetching projects:', error);
             }
         }
+    },
+    mounted() {
+
     }
 }
 </script>

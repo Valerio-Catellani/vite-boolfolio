@@ -8,15 +8,11 @@
                 </div>
                 <div id="hype-nav-menu" class="d-flex h-100 d-none d-lg-block align-items-center">
                     <ul class="navbar-nav h-100 mb-2 mb-lg-0 d-flex flex-row align-items-center">
-
-
-
                         <li v-for="links in navLinks" :key="links.id"
                             class="nav-item d-flex align-items-center px-3 custom-border">
-                            <router-link :to="links.path" class="nav-link" exact>{{ links.name }}</router-link>
+                            <router-link :to="links.path" class="nav-link" exact>{{ capitalizeString(links.name)
+                                }}</router-link>
                         </li>
-
-
                     </ul>
                 </div>
             </div>
@@ -27,7 +23,7 @@
                 </div>
                 <div id="hype-nav-login-button" ref="hypeNavLoginButton"
                     class="icon-container rounded-top-2 d-flex flex-column justify-content-center order-2"
-                    role="button"><a href="http://localhost:8000/login">
+                    role="button"><a href="http://localhost:8000/login" class="text-decoration-none text-white">
                         <i class="fa-solid fa-user"></i>
                     </a>
                 </div>
@@ -67,6 +63,8 @@
 </template>
 
 <script>
+import { capitalize } from 'vue';
+
 export default {
     name: 'HeaderComponent',
     data() {
@@ -147,6 +145,9 @@ export default {
         },
         fillNavLinks() {
             this.navLinks = this.$router.options.routes.filter(link => link.meta?.visible ?? false);
+        },
+        capitalizeString(string) {
+            return capitalize(string);
         }
     },
 };
