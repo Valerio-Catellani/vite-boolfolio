@@ -1,5 +1,5 @@
 <template>
-    <header>
+    <header class="hype-shadow-white z-1">
         <nav id="hype-custom-nav" ref="hypeCustomNav"
             class="fixed-header container d-flex margin-x-auto rounded-2 align-items-center justify-content-between">
             <div class="d-flex h-100 align-items-center">
@@ -10,8 +10,9 @@
                     <ul class="navbar-nav h-100 mb-2 mb-lg-0 d-flex flex-row align-items-center">
                         <li v-for="links in navLinks" :key="links.id"
                             class="nav-item d-flex align-items-center px-3 custom-border">
-                            <router-link :to="links.path" class="nav-link" exact>{{ capitalizeString(links.name)
-                                }}</router-link>
+                            <router-link :to="links.path" class="nav-link" exact>{{
+                                capitalizeString(links.name)
+                            }}</router-link>
                         </li>
                     </ul>
                 </div>
@@ -148,7 +149,8 @@ export default {
         },
         capitalizeString(string) {
             return capitalize(string);
-        }
+        },
+
     },
 };
 </script>
@@ -163,7 +165,7 @@ export default {
 
 header {
     height: 75px;
-    background-color: $background-primary-color;
+    background-color: $background-zero-color;
     box-shadow: 2px 2px 5px $shadow-primary-color;
 
     .active-color {

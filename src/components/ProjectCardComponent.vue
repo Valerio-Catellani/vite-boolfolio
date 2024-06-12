@@ -1,5 +1,5 @@
 <template>
-    <div class="card-container px-1 py-5 mb-2">
+    <div class="card-container py-5 mb-2">
         <div class="custom-card mx-auto text-white hype-w-90x100 p-4" ref="cardEnter" :class="metaSort">
             <div class="front-layer h-100 d-flex flex-column justify-content-between">
                 <h2 class="text-center p-3 fs-1 hype-text-shadow">{{ propsProject.title }}</h2>
@@ -24,14 +24,11 @@
                         </div>
                         <h4 v-else>No Technology</h4>
                     </div>
-                    <div class="d-flex gap-3 hype-text-shadow py-3">
-                        <h4>Description:</h4>
-                        <p>
-                            {{ propsProject.description }}
-                        </p>
-                    </div>
-                    <div class="text-center">
-                        <a role="button" class="mine-custom-btn mb-3 align-self-center" href="#">More Details</a>
+                    <div class="text-center mt-4">
+                        <router-link :to="`/projects/${propsProject.slug}`" @click="store.api_data.singleProject = {}"
+                            class="mine-custom-btn mb-3 align-self-center" role="button">
+                            More Details
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -115,7 +112,7 @@ export default {
 
 
 
-
+        // @click.prevent="store.methods.getSingleProject(propsProject.slug)"
     },
     methods: {
         hover(name) {
@@ -156,8 +153,8 @@ export default {
 
 .custom-card {
     position: relative;
-    max-width: 600px;
-    width: 600px;
+    max-width: 475px;
+    width: 475px;
     max-height: 700px;
     height: 700px;
     color: #000000;
@@ -167,6 +164,11 @@ export default {
 
     &:hover {
         transform: rotateY(0deg) rotateX(0deg);
+    }
+
+    @media screen and (min-width: 767px) {
+        max-width: 550px;
+        width: 550px;
     }
 
 

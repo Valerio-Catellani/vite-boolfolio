@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import AppHome from './pages/AppHome.vue';
 import AppProjectsList from './pages/AppProjectsList.vue';
+import AppProjectDetails from './pages/AppProjectDetails.vue';
 import NotFound from './pages/NotFound.vue';
 
 const router = createRouter({
@@ -21,6 +22,14 @@ const router = createRouter({
                 visible: true
             },
             component: AppProjectsList
+        },
+        {
+            path: '/projects/:slug',
+            name: 'project-details',
+            meta: {
+                visible: false
+            },
+            component: AppProjectDetails
         },
         {
             path: '/:pathMatch(.*)*',

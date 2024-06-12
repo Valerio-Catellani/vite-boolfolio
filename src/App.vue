@@ -7,7 +7,6 @@
 
 <script>
 import { store } from './store';
-import axios from 'axios';
 import HeaderComponent from './components/HeaderComponent.vue';
 
 export default {
@@ -22,8 +21,9 @@ export default {
   },
   methods: {
   },
-  mounted() {
-    this.store.getAllProjects();
+  created() {
+    this.store.methods.getProjects();
+    this.store.methods.getTypes();
   }
 };
 </script>
@@ -31,8 +31,10 @@ export default {
 <style lang="scss" scoped>
 @use './assets/styles/partials/variables' as *;
 
+
+
 main {
-  background-color: $background-tertiary-color;
+  background-color: $background-primary-color;
   min-height: 100vh;
 }
 </style>
