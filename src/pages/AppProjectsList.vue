@@ -1,6 +1,6 @@
 <template>
     <JumboComponent :img_name="'/public/images/jumbo.jpg'"></JumboComponent>
-    <div class="container my-5">
+    <div class="container py-5">
         <h1 class="text-center hype-text-shadow text-white display-1">PROJECTS</h1>
         <SelectComponent></SelectComponent>
         <div class="row">
