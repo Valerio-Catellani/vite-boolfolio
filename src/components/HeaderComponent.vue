@@ -12,7 +12,7 @@
                             class="nav-item d-flex align-items-center px-3 custom-border">
                             <router-link :to="links.path" class="nav-link" exact>{{
                                 capitalizeString(links.name)
-                            }}</router-link>
+                                }}</router-link>
                         </li>
                     </ul>
                 </div>

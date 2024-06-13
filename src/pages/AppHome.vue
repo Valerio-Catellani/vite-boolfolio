@@ -1,6 +1,7 @@
 <template>
     <JumboComponent :img_name="'/public/images/jumbo.jpg'"></JumboComponent>
     <div class="hype-container-xxxl py-5">
+        <!-- <HypeMultiSelect :arrayElements="test"></HypeMultiSelect> -->
         <Carousel :itemsToShow="3" :autoplay="3000" :wrapAround="true" :transition="500" class="py-5">
             <Slide v-for="slide in store.api_data.AllProjects.data" :key="slide.id">
                 <div class="carousel__item">
@@ -17,19 +18,35 @@ import { Carousel, Slide } from 'vue3-carousel';
 import 'vue3-carousel/dist/carousel.css';
 import { store } from '../store';
 import JumboComponent from '@/components/JumboComponent.vue';
+import HypeMultiSelect from '@/components/HypeMultiSelect.vue'
 
 export default defineComponent({
     name: 'AppHome',
     data() {
         return {
             store,
-            projects: []
+            projects: [],
+            test: [
+                {
+                    id: 1,
+                    name: 'test1',
+                },
+                {
+                    id: 2,
+                    name: 'test2',
+                },
+                {
+                    id: 3,
+                    name: 'test3',
+                }
+            ]
         }
     },
     components: {
         Carousel,
         Slide,
-        JumboComponent
+        JumboComponent,
+
     },
     mounted() {
     }

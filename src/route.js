@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import AppHome from './pages/AppHome.vue';
 import AppProjectsList from './pages/AppProjectsList.vue';
 import AppProjectDetails from './pages/AppProjectDetails.vue';
+import AppContacts from './pages/AppContacts.vue';
 import NotFound from './pages/NotFound.vue';
 
 const router = createRouter({
@@ -22,6 +23,14 @@ const router = createRouter({
                 visible: true
             },
             component: AppProjectsList
+        },
+        {
+            path: '/contacts',
+            name: 'contacts',
+            meta: {
+                visible: true
+            },
+            component: AppContacts
         },
         {
             path: '/projects/:slug',
